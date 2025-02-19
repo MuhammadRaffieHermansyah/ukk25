@@ -46,6 +46,29 @@
                 nostrum. Quisquam et nostrum amet dolore? Quas vitae reprehenderit id excepturi architecto adipisci
                 placeat ab eum! Doloribus, harum.</p>
         </div>
+        {{-- contact us --}}
+        <div class="max-w-7xl flex flex-col items-center mx-auto my-20">
+            <h1 class="font-extrabold text-3xl">Contact Us</h1>
+            <p class="text-lg">Any questions or remarks? just write us a message!</p>
+            <div class="my-4"></div>
+            <div class="flex items-center justify-between">
+                <div class="w-full min-w-[400px]">
+                    <input
+                        class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-[#8f5e1f] hover:border-[#8f5e1f] ring-0 shadow-sm focus:shadow"
+                        placeholder="Full Name " />
+                </div>
+                <div class="mx-2"></div>
+                <div class="w-full min-w-[400px]">
+                    <input
+                        class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-[#8f5e1f] hover:border-[#8f5e1f] ring-0 shadow-sm focus:shadow"
+                        placeholder="Email" />
+                </div>
+            </div>
+            <div class="my-3"></div>
+            <textarea rows="10"
+                class="w-[816px] bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-400 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-[#8f5e1f] hover:border-[#8f5e1f] ring-0 shadow-sm focus:shadow"
+                placeholder="Message..."></textarea>
+        </div>
         {{-- Footer --}}
         <div class="text-center bg-black text-white py-10 px-20">
             <h1 class="text-2xl">Hotel Prima</h1>
