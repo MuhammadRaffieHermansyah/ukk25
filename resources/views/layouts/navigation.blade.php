@@ -13,33 +13,33 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if (Auth::user()->role == 'admin')
-                        <x-nav-link :href="route('room')" :active="request()->routeIs('room')">
+                        <x-nav-link :href="route('room.index')" :active="request()->routeIs('room.index')">
                             {{ __('Room') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('room.facilities')" :active="request()->routeIs('room.facilities')">
+                        <x-nav-link :href="route('facilities.room.index')" :active="request()->routeIs('facilities.room.index')">
                             {{ __('Room Facilities') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('hotel.facilities')" :active="request()->routeIs('hotel.facilities')">
+                        <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
                             {{ __('Hotel Facilities') }}
                         </x-nav-link>
                     @elseif (Auth::user()->role == 'receptionist')
                         <x-nav-link :href="route('room')" :active="request()->routeIs('room')">
                             {{ __('Booking') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('room.facilities')" :active="request()->routeIs('room.facilities')">
+                        <x-nav-link :href="route('facilities.room.index')" :active="request()->routeIs('facilities.room.index')">
                             {{ __(' Facilities') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('hotel.facilities')" :active="request()->routeIs('hotel.facilities')">
+                        <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
                             {{ __('Hotel Facilities') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('room')" :active="request()->routeIs('room')">
+                        <x-nav-link :href="route('room.index')" :active="request()->routeIs('room.index')">
                             {{ __('Room') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('facilities')" :active="request()->routeIs('facilities')">
+                        <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
                             {{ __('Facilities') }}
                         </x-nav-link>
                     @endif

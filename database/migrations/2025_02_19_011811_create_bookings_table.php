@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->date('chek_in');
-            $table->date('chek_out');
+            $table->date('check_in');
+            $table->date('check_out');
             $table->integer('number_of_rooms');
             $table->string('order_name');
             $table->string('order_email');

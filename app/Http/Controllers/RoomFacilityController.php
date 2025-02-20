@@ -12,7 +12,8 @@ class RoomFacilityController extends Controller
      */
     public function index()
     {
-        //
+        $roomFacilities = RoomFacility::all();
+        return view('room-facilities.index', compact('roomFacilities'));
     }
 
     /**
@@ -28,7 +29,7 @@ class RoomFacilityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

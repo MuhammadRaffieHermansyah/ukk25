@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\RoomFacility;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -12,9 +14,11 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $rooms = Room::with('roomType', 'roomFacilities')->get();
+        $rooms = Room::with('roomType', 'roomFacilities')->latest()->get();
+        $roomFacilities = RoomFacility::all();
+        $roomTypes = RoomType::all();
         // return response()->json($rooms);
-        return view('room.index', compact('rooms'));
+        return view('room.index', compact('rooms', 'roomFacilities', 'roomTypes'));
     }
 
     /**
@@ -30,7 +34,13 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|max:255',
+            'room_type_id' => 'required|integer',
+            'room_facilities_id' => 'required|integer',
+        ]);
+        Room::create($data);
+        return redirect()->back()->with('success', 'Data room successfully stored!');
     }
 
     /**
@@ -60,8 +70,16 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Room $room)
+    public function destroy($id)
     {
-        //
+        $room = Room::find($id);
+
+        if (!$room) {
+            return response()->json(['success' => false, 'message' => 'Room not found'], 404);
+        }
+
+        $room->delete();
+
+        return response()->json(['success' => true, 'message' => 'Room deleted successfully']);
     }
 }
