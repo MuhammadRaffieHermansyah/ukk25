@@ -54,17 +54,27 @@ class RoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Room $room)
+    public function edit($id)
     {
-        //
+        $roomFacilities = RoomFacility::all();
+        $roomTypes = RoomType::all();
+        $room = Room::find($id);
+        return view('room.edit', compact('room', 'roomFacilities', 'roomTypes'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Room $room)
+    public function update(Request $request, $id)
     {
-        //
+
+        $data = $request->validate([
+            'name' => 'max:255',
+            'room_type_id' => 'integer',
+            'room_facilities_id' => 'integer',
+        ]);
+        Room::find($id)->update($data);
+        return redirect(route('room.index'))->with('success', 'Data room successfully updated!');
     }
 
     /**

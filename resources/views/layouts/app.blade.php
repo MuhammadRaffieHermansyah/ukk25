@@ -56,6 +56,7 @@
         function main() {
             return {
                 roomId: 0,
+                hotelFacilityId: 0,
                 deleteRoom(roomId) {
                     if (!roomId) return;
 
@@ -122,7 +123,7 @@
                 deleteHotelFacilities(hotelFacilitydI) {
                     if (!hotelFacilitydI) return;
 
-                    fetch(`facilities/hotel/${hotelFacilitydI}`, {
+                    fetch(`hotel/${hotelFacilitydI}`, {
                             method: "DELETE",
                             headers: {
                                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute(

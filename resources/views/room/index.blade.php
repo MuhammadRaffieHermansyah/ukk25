@@ -23,10 +23,10 @@
                                 <td class="p-4">{{ $room->name }}</td>
                                 <td class="p-4">{{ $room->roomType->name }}</td>
                                 <td class="p-4 flex flex-row justify-center items-center gap-3">
-                                    <button type="button"
-                                        class="whitespace-nowrap rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white ansition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Detail</button>
-                                    <button type="button"
-                                        class="whitespace-nowrap rounded-md bg-yellow-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Edit</button>
+                                    {{-- <button type="button"
+                                        class="whitespace-nowrap rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white ansition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Detail</button> --}}
+                                    <a href="{{ route('room.edit', $room->id) }}"
+                                        class="whitespace-nowrap rounded-md bg-yellow-400 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Edit</a>
                                     <button type="button"
                                         @click="roomId = {{ $room->id }}; $dispatch('open-modal', 'modal-delete-room')"
                                         class="whitespace-nowrap rounded-md bg-red-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Delete</button>
@@ -64,7 +64,7 @@
     </div>
     {{-- MODAL --}}
     <x-modal name="modal-add-room">
-        <form class="p-6 w-full" action="{{ route('room.index') }}" method="POST">
+        <form class="p-6 w-full" action="{{ route('room.store') }}" method="POST">
             @csrf
             <h2 class="text-xl font-semibold py-2">Add Room</h2>
             <hr>
@@ -102,7 +102,7 @@
                     class="px-4 py-2 bg-gray-500 text-white rounded">
                     Close
                 </button>
-                <button x-on:click="$dispatch('close-modal', 'modal-add-room')"
+                <button type="submit"
                     class="px-4 py-2 bg-green-500 text-white rounded">
                     Send
                 </button>
@@ -112,7 +112,7 @@
     <x-modal name="modal-delete-room">
         <div class="p-6 text-center">
             <h2 class="text-xl font-semibold py-2">Are you sure?</h2>
-            <h4>You're going to delete the room.</h4>
+            <h4>You're going to delete the Room.</h4>
             <div class="mt-4 flex items-center justify-center">
                 <button x-on:click="$dispatch('close-modal', 'modal-delete-room')"
                     class="px-10 py-2 bg-gray-400 text-white rounded">
@@ -125,5 +125,4 @@
             </div>
         </div>
     </x-modal>
-
 </x-app-layout>
