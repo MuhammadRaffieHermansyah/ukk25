@@ -101,46 +101,57 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Standard',
                 'description' => 'Kamar hotel yang paling umum dan memiliki fasilitas terbatas',
+                'image' => 'standar.jpg',
             ],
             [
                 'name' => 'Superior',
                 'description' => 'Kamar hotel yang sedikit lebih baik dari standard room, dengan fasilitas, interior, balkon, atau view yang lebih baik',
+                'image' => 'superior.jpg',
             ],
             [
                 'name' => 'Deluxe',
                 'description' => 'Kamar hotel yang lebih besar dan lebih baik daripada superior room',
+                'image' => 'delux.jpg',
             ],
             [
                 'name' => 'Twin',
                 'description' => 'Kamar hotel yang memiliki dua tempat tidur ukuran single yang terpisah',
+                'image' => 'twin.jpg',
             ],
             [
                 'name' => 'Double',
                 'description' => 'Kamar hotel yang umumnya memiliki kasur berukuran besar seperti king size',
+                'image' => 'double.jpg',
             ],
             [
                 'name' => 'Family',
                 'description' => 'Kamar hotel yang khusus untuk keluarga atau tamu yang ingin menginap bersama dua orang lebih',
+                'image' => 'family.jpg',
             ],
             [
                 'name' => 'Junior Suite',
                 'description' => 'Kamar hotel yang memiliki ruang tamu yang menjadi satu dengan ruang tidur',
+                'image' => 'juniorsuite.jpg',
             ],
             [
                 'name' => 'Suite Room',
                 'description' => 'Kamar hotel yang memiliki ruang tamu',
+                'image' => 'suiteroom.jpg',
             ],
             [
                 'name' => 'Presidential Suite',
                 'description' => 'Kamar hotel yang paling bagus dan paling mahal',
+                'image' => 'presidential.jpg',
             ],
             [
                 'name' => 'Connecting Room',
                 'description' => 'Kamar hotel yang cocok untuk tamu yang berlibur bersama keluarga besar',
+                'image' => 'connecting.jpg',
             ],
             [
                 'name' => 'Murphy Room',
                 'description' => 'Kamar hotel yang memiliki sofa bed',
+                'image' => 'murphy.jpg',
             ],
         ];
 
@@ -151,7 +162,6 @@ class DatabaseSeeder extends Seeder
         $roomFacilities = [
             [
                 'room_type' => 'Standard',
-                'image' => 'standar.jpg',
                 'facilities' => [
                     'Tempat tidur single atau double',
                     'Kamar mandi dengan shower',
@@ -162,7 +172,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Superior',
-                'image' => 'superior.jpg',
                 'facilities' => [
                     'Tempat tidur lebih nyaman',
                     'Kamar mandi dengan shower dan amenities',
@@ -174,7 +183,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Deluxe',
-                'image' => 'delux.jpg',
                 'facilities' => [
                     'Ruangan lebih luas',
                     'Tempat tidur king size atau twin bed',
@@ -188,7 +196,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Twin',
-                'image' => 'twin.jpg',
                 'facilities' => [
                     'Dua tempat tidur single',
                     'Kamar mandi dengan shower',
@@ -199,7 +206,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Double',
-                'image' => 'double.jpg',
                 'facilities' => [
                     'Kasur ukuran queen atau king',
                     'Kamar mandi dengan shower dan bathtub',
@@ -211,7 +217,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Family',
-                'image' => 'family.jpg',
                 'facilities' => [
                     'Kasur ukuran besar dan tempat tidur tambahan',
                     'Kamar mandi dengan bathtub dan shower',
@@ -224,7 +229,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Junior Suite',
-                'image' => 'juniorsuite.jpg',
                 'facilities' => [
                     'Ruang tidur dan ruang tamu dalam satu area',
                     'Kasur ukuran king',
@@ -238,7 +242,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Suite Room',
-                'image' => 'suiteroom.jpg',
                 'facilities' => [
                     'Ruang tidur dan ruang tamu terpisah',
                     'Kasur ukuran king',
@@ -252,7 +255,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Presidential Suite',
-                'image' => 'presidential.jpg',
                 'facilities' => [
                     'Kamar dengan luas terbesar',
                     'Ruang tamu, ruang makan, dan ruang tidur terpisah',
@@ -268,7 +270,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Connecting Room',
-                'image' => 'connecting.jpg',
                 'facilities' => [
                     'Dua kamar yang terhubung dengan pintu dalam',
                     'Kasur ukuran queen atau king',
@@ -281,7 +282,6 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'room_type' => 'Murphy Room',
-                'image' => 'murphy.jpg',
                 'facilities' => [
                     'Tempat tidur lipat atau sofa bed',
                     'Kamar multifungsi',
@@ -296,7 +296,6 @@ class DatabaseSeeder extends Seeder
         foreach ($roomFacilities as $facility) {
             \App\Models\RoomFacility::create([
                 'room_type' => $facility['room_type'],
-                'image' => $facility['image'],
                 'facilities' => json_encode($facility['facilities']),
             ]);
         }

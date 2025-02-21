@@ -26,14 +26,8 @@
                             {{ __('Hotel Facilities') }}
                         </x-nav-link>
                     @elseif (Auth::user()->role == 'receptionist')
-                        <x-nav-link :href="route('room')" :active="request()->routeIs('room')">
+                        <x-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.index')">
                             {{ __('Booking') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('facilities.room.index')" :active="request()->routeIs('facilities.room.index')">
-                            {{ __(' Facilities') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
-                            {{ __('Hotel Facilities') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
@@ -44,6 +38,9 @@
                         </x-nav-link>
                         <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
                             {{ __('Facilities') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('booked')" :active="request()->routeIs('booked')">
+                            {{ __('Booked Room') }}
                         </x-nav-link>
                     @endif
                 </div>

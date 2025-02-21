@@ -17,7 +17,14 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div x-data="main()" class="min-h-screen bg-gray-100">
+    <div x-data="main()"
+        x-on:notify.window="addNotification({
+        variant: $event.detail.variant,
+        sender: $event.detail.sender,
+        title: $event.detail.title,
+        message: $event.detail.message,
+    })"
+        class="min-h-screen bg-gray-100">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -30,6 +37,11 @@
                             <button x-on:click="$dispatch('open-modal', 'modal-add-room')" type="button"
                                 class="whitespace-nowrap rounded-md bg-green-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white ansition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Add
                                 Room</button>
+                        @endif
+                        @if (request()->routeIs('room-type.index'))
+                            <button x-on:click="$dispatch('open-modal', 'modal-add-room-type')" type="button"
+                                class="whitespace-nowrap rounded-md bg-green-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white ansition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Add
+                                Room Type</button>
                         @endif
                         @if (request()->routeIs('facilities.room.index'))
                             <button x-on:click="$dispatch('open-modal', 'modal-add-room-facilities')" type="button"
@@ -52,10 +64,24 @@
             {{ $slot }}
         </main>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+        function captureStruk(id) {
+            let element = document.getElementById(`struk-${id}`);
+
+            html2canvas(element).then(canvas => {
+                let link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = `struk_${id}.png`;
+                link.click();
+            });
+        }
+
         function main() {
             return {
                 roomId: 0,
+                roomTypeId: 0,
+                roomFacilityId: 0,
                 hotelFacilityId: 0,
                 deleteRoom(roomId) {
                     if (!roomId) return;
@@ -81,7 +107,7 @@
                 deleteRoomType(roomTypeId) {
                     if (!roomTypeId) return;
 
-                    fetch(`facilities/room/${roomTypeId}`, {
+                    fetch(`room-type/${roomTypeId}`, {
                             method: "DELETE",
                             headers: {
                                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute(
@@ -102,7 +128,7 @@
                 deleteRoomFacilities(roomFacilityId) {
                     if (!roomFacilityId) return;
 
-                    fetch(`room-type/${roomFacilityId}`, {
+                    fetch(`room/${roomFacilityId}`, {
                             method: "DELETE",
                             headers: {
                                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute(

@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('room_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image');
             $table->text('description');
             $table->timestamps();
         });
         Schema::create('room_facilities', function (Blueprint $table) {
             $table->id();
             $table->string('room_type');
-            $table->string('image');
             $table->json('facilities');
             $table->timestamps();
         });

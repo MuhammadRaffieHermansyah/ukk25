@@ -40,7 +40,7 @@
             <div class="grid grid-cols-3 gap-4 max-w-7xl mx-auto">
                 @foreach ($rooms as $room)
                     <div class="bg-[#E0A75E] rounded-lg">
-                        <img src="{{ asset('assets/images/room-type/' . $room->roomFacilities->image) }}" alt=""
+                        <img src="{{ asset('assets/images/room-type/' . $room->roomType->image) }}" alt=""
                             class="h-[17rem] w-full bg-cover rounded-t-lg">
                         <div class="p-5">
                             <div class="">

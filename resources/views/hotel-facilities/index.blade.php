@@ -76,8 +76,8 @@
             </div>
             <hr>
             <div class="mt-4 text-end">
-                <button x-on:click="$dispatch('close-modal', 'modal-add-room')"
-                    class="px-4 py-2 bg-gray-500 text-white rounded">
+                <button @click="$dispatch('close-modal', 'modal-add-hotel-facilities')"
+                    class="px-4 py-2 bg-gray-500 text-white rounded">eb
                     Close
                 </button>
                 <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded">

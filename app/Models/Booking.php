@@ -11,10 +11,18 @@ class Booking extends Model
         'check_in',
         'check_out',
         'number_of_rooms',
-        'order_name',
-        'order_email',
-        'order_phone',
+        'email',
+        'phone',
         'visitor_name',
         'room_id',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 }

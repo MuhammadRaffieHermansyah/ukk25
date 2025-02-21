@@ -24,7 +24,7 @@
                     Quia necessitatibus illo architecto eaque pariatur repudiandae? Lorem ipsum dolor sit amet
                     consectetur adipisicing elit. Illo, saepe!</p>
                 <div class="my-4"></div>
-                <a href="#"
+                <a href="{{ route('order.index') }}"
                     class="bg-[#8f5e1f] text-white px-6 py-2 rounded-md transition hover:bg-[#664111] duration-500">Booking
                     Now</a>
             </div>
