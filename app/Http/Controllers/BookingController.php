@@ -41,6 +41,7 @@ class BookingController extends Controller
 
     public function cetakStruk($id) {
         $bookedRoom = Booking::with(['user', 'room.roomType', 'room.roomFacilities'])->findOrFail($id);
+        // return response()->json($bookedRoom->room->roomFacilities->facilities);
         return view('booked.print', compact('bookedRoom'));
     }
 

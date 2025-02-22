@@ -20,13 +20,10 @@
                         <p>{{ $bookedRoom->check_in }} - {{ $bookedRoom->check_out }}</p>
                     </div>
                     <div class="group">
-                        <button onclick="captureStruk({{ $bookedRoom->id }})"
+                        <a href="{{ route('cetak.struk', $bookedRoom->id) }}"
                             class="px-4 py-2 border border-green-500 text-gray-700 rounded-md transition duration-500">
                             Cetak Struk
-                        </button>
-                        <div class="hidden" id="struk-{{ $bookedRoom->id }}">
-                            aaaaaaaaaa
-                        </div>
+                        </a>
                     </div>
                 </div>
             @endforeach
