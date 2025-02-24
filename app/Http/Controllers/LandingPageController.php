@@ -13,7 +13,7 @@ class LandingPageController extends Controller
         if (Auth::user()->role == 'admin') {
             return redirect(route('room.index', absolute: false));
         }
-        if (Auth::user()->role == 'receotionist') {
+        if (Auth::user()->role == 'receptionist') {
             return redirect(route('booking.index', absolute: false));
         }
         return view('dashboard');

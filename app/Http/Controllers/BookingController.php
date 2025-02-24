@@ -14,7 +14,8 @@ class BookingController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Booking::with(['user', 'room.roomType', 'room.roomFacilities']);
+        $query = Booking::with(['user', 'room.roomType', 'room.roomFacilities'])
+            ->whereDate('check_out', '>=', now()->toDateString());
 
         if ($request->filled('initial_date')) {
             $query->whereDate('check_in', '>=', $request->initial_date);
@@ -33,13 +34,37 @@ class BookingController extends Controller
         return view('booking.index', compact('bookings'));
     }
 
+    public function bookingHistory(Request $request)
+    {
+        $query = Booking::with(['user', 'room.roomType', 'room.roomFacilities'])
+            ->whereDate('check_out', '<', now()->toDateString()); // Filter booking yang sudah selesai
+
+        if ($request->filled('initial_date')) {
+            $query->whereDate('check_in', '>=', $request->initial_date);
+        }
+
+        if ($request->filled('end_date')) {
+            $query->whereDate('check_out', '<=', $request->end_date);
+        }
+
+        if ($request->filled('search')) {
+            $query->where('visitor_name', 'like', '%' . $request->search . '%');
+        }
+
+        $bookings = $query->latest()->paginate(10);
+
+        return view('booking.history', compact('bookings'));
+    }
+
+
     public function booked()
     {
-        $bookedRooms = Booking::with(['user', 'room.roomType', 'room.roomFacilities'])->where('user_id', Auth::user()->id)->get();
+        $bookedRooms = Booking::with(['user', 'room.roomType', 'room.roomFacilities'])->where('user_id', Auth::user()->id)->latest()->get();
         return view('booked.index', compact('bookedRooms'));
     }
 
-    public function cetakStruk($id) {
+    public function cetakStruk($id)
+    {
         $bookedRoom = Booking::with(['user', 'room.roomType', 'room.roomFacilities'])->findOrFail($id);
         // return response()->json($bookedRoom->room->roomFacilities->facilities);
         return view('booked.print', compact('bookedRoom'));

@@ -12,13 +12,28 @@ class RoomController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rooms = Room::with('roomType', 'roomFacilities')->latest()->get();
-        $roomFacilities = RoomFacility::all();
+        $query = Room::with('roomType', 'roomFacilities');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where('name', 'like', "%$search%")
+                  ->orWhereHas('roomType', function ($q) use ($search) {
+                      $q->where('name', 'like', "%$search%");
+                  });
+        }
+
+        if ($request->filled('room_type_id')) {
+            $query->where('room_type_id', $request->room_type_id);
+        }
+
+        $rooms = $query->latest()->paginate(15);
+        // $roomFacilities = RoomFacility::all();
         $roomTypes = RoomType::all();
         // return response()->json($rooms);
-        return view('room.index', compact('rooms', 'roomFacilities', 'roomTypes'));
+        return view('room.index', compact('rooms', 'roomTypes'));
     }
 
     /**
@@ -37,7 +52,6 @@ class RoomController extends Controller
         $data = $request->validate([
             'name' => 'required|max:255',
             'room_type_id' => 'required|integer',
-            'room_facilities_id' => 'required|integer',
         ]);
         Room::create($data);
         return redirect()->back()->with('success', 'Data room successfully stored!');
@@ -56,10 +70,10 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
-        $roomFacilities = RoomFacility::all();
+        // $roomFacilities = RoomFacility::all();
         $roomTypes = RoomType::all();
         $room = Room::find($id);
-        return view('room.edit', compact('room', 'roomFacilities', 'roomTypes'));
+        return view('room.edit', compact('room', 'roomTypes'));
     }
 
     /**
@@ -67,11 +81,9 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $data = $request->validate([
             'name' => 'max:255',
             'room_type_id' => 'integer',
-            'room_facilities_id' => 'integer',
         ]);
         Room::find($id)->update($data);
         return redirect(route('room.index'))->with('success', 'Data room successfully updated!');
@@ -85,11 +97,11 @@ class RoomController extends Controller
         $room = Room::find($id);
 
         if (!$room) {
-            return response()->json(['success' => false, 'message' => 'Room not found'], 404);
+            return response()->json(['success' => false, 'error' => 'Room not found'], 404);
         }
 
         $room->delete();
 
-        return response()->json(['success' => true, 'message' => 'Room deleted successfully']);
+        return response()->json(['success' => true, 'success' => 'Room deleted successfully']);
     }
 }

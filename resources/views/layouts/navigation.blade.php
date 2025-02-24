@@ -1,14 +1,8 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-slate-300">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if (Auth::user()->role == 'admin')
@@ -18,9 +12,9 @@
                         <x-nav-link :href="route('room-type.index')" :active="request()->routeIs('room-type.index')">
                             {{ __('Room Type') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('facilities.room.index')" :active="request()->routeIs('facilities.room.index')">
+                        {{-- <x-nav-link :href="route('facilities.room.index')" :active="request()->routeIs('facilities.room.index')">
                             {{ __('Room Facilities') }}
-                        </x-nav-link>
+                        </x-nav-link> --}}
                         <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
                             {{ __('Hotel Facilities') }}
                         </x-nav-link>
@@ -28,18 +22,21 @@
                         <x-nav-link :href="route('booking.index')" :active="request()->routeIs('booking.index')">
                             {{ __('Booking') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('booking.history')" :active="request()->routeIs('booking.history')">
+                            {{ __('Booking History') }}
+                        </x-nav-link>
                     @else
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
                         </x-nav-link>
                         <x-nav-link :href="route('room.index')" :active="request()->routeIs('room.index')">
-                            {{ __('Room') }}
+                            {{ __('Room Type') }}
                         </x-nav-link>
                         <x-nav-link :href="route('facilities.hotel.index')" :active="request()->routeIs('facilities.hotel.index')">
-                            {{ __('Facilities') }}
+                            {{ __('Hotel Facilities') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('booked')" :active="request()->routeIs('booked')">
-                            {{ __('Booked Room') }}
+                        <x-nav-link :href="route('order.index')" :active="request()->routeIs('order.index')">
+                            {{ __('Booking') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -68,10 +65,12 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('booked')">
+                            {{ __('Booked Room') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">

@@ -20,4 +20,8 @@ class Room extends Model
     {
         return $this->belongsTo(RoomFacility::class);
     }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'room_id'); // Pastikan foreign key benar
+    }
 }

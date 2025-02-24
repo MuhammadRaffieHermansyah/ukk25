@@ -15,22 +15,22 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image');
-            $table->text('description');
-            $table->timestamps();
-        });
-        Schema::create('room_facilities', function (Blueprint $table) {
-            $table->id();
-            $table->string('room_type');
             $table->json('facilities');
+            // $table->text('description');
             $table->timestamps();
         });
+        // Schema::create('room_facilities', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('room_type');
+        //     $table->timestamps();
+        // });
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('room_type_id');
             $table->foreign('room_type_id')->references('id')->on('room_types');
-            $table->foreignId('room_facilities_id');
-            $table->foreign('room_facilities_id')->references('id')->on('room_facilities');
+            // $table->foreignId('room_facilities_id');
+            // $table->foreign('room_facilities_id')->references('id')->on('room_facilities');
             $table->timestamps();
         });
     }

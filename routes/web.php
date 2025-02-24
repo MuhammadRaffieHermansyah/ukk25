@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/room', RoomFacilityController::class)->name('*', 'room');
     });
     Route::resource('/booking', BookingController::class)->name('*', 'booking');
+    Route::get('/booking-history', [BookingController::class, 'bookingHistory'])->name('booking.history');
     Route::prefix('/order')->name('order.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::post('/', [OrderController::class, 'store'])->name('store');

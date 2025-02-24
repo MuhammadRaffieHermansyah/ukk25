@@ -30,14 +30,17 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $data = $request->validate([
             'name' => 'required|max:255',
-            'description' => 'required',
+            'facilities' => 'required|string'
         ]);
         if ($request->file('image')) {
             $data['image'] = $request->file('image')->store('room-type-images');
+            $arrayFasilities = array_filter(array_map('trim', explode("\n", $data['facilities'])));
+            $data['facilities'] = json_encode($arrayFasilities);
             RoomType::create($data);
-            return redirect()->back()->with('success', 'Room Type Data successfully updated!');
+            return redirect()->back()->with('success', 'Room Type Data successfully stored!');
         } else {
             return redirect()->back()->withErrors('image', 'Image null!');
         }
@@ -67,13 +70,15 @@ class RoomTypeController extends Controller
     {
         $roomType = RoomType::find($id);
         $data = $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required',
+            'name' => 'max:255',
+            'facilities' => 'string'
         ]);
         if ($request->file('image')) {
             if ($roomType->image) {
                 Storage::delete($roomType->image);
             }
+            $arrayFasilities = array_filter(array_map('trim', explode("\n", $data['facilities'])));
+            $data['facilities'] = json_encode($arrayFasilities);
             $data['image'] = $request->file('image')->store('room-type-images');
             $roomType->update($data);
             return redirect(route('room-type.index'))->with('success', 'Room type successfully updated!');
@@ -89,11 +94,11 @@ class RoomTypeController extends Controller
         $roomType = RoomType::find($id);
 
         if (!$roomType) {
-            return response()->json(['success' => false, 'message' => 'Room Type not found'], 404);
+            return response()->json(['success' => false, 'error' => 'Room Type not found'], 404);
         }
         Storage::delete($roomType->image);
         $roomType->delete();
 
-        return response()->json(['success' => true, 'message' => 'Room Type deleted successfully']);
+        return response()->json(['success' => true, 'success' => 'Room Type deleted successfully']);
     }
 }

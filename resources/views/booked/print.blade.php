@@ -1,65 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Struk Pemesanan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* Style khusus untuk cetakan struk */
+        .struk-container {
+            max-width: 300px;
+            background: white;
+            padding: 10px;
+            font-family: monospace;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .struk-header,
+        .struk-footer {
+            text-align: center;
+        }
+
+        .struk-content p {
+            margin: 4px 0;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 p-4">
 
-    <div class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <!-- Header -->
-      <div class="text-center mb-4">
-        <h2 class="text-2xl font-bold">Struk Pemesanan</h2>
-        <p class="text-sm text-gray-500">Hotel Prima</p>
-      </div>
+<body class="bg-gray-100 flex flex-col justify-center items-center min-h-screen">
 
-      <!-- Visitor Details -->
-      <div class="mb-4">
-        <p class="font-semibold">Nama Pengunjung:</p>
-        <p class="text-gray-700">{{ $bookedRoom->visitor_name }}</p>
-        <p class="font-semibold">Telepon:</p>
-        <p class="text-gray-700">{{ $bookedRoom->phone }}</p>
-      </div>
+    <div class="struk-container" id="struk">
+        <!-- Header Struk -->
+        <div class="struk-header py-3">
+            <h2 class="text-lg font-bold">HOTEL PRIMA</h2>
+            <p class="text-sm">Jl. Raya Utama No. 123, Kota Indah, Indonesia</p>
+            <p class="text-sm">+62 812-3456-7890 <br> ✉ contact@hotelprima.com</p>
+        </div>
+        <hr>
 
-      <!-- Reservation Details -->
-      <div class="mb-4">
-        <p class="font-semibold">Check-in:</p>
-        <p class="text-gray-700">{{ $bookedRoom->check_in }}</p>
-        <p class="font-semibold">Check-out:</p>
-        <p class="text-gray-700">{{ $bookedRoom->check_out }}</p>
-        <p class="font-semibold">Jumlah Kamar:</p>
-        <p class="text-gray-700">{{ $bookedRoom->number_of_rooms }}</p>
-      </div>
+        <!-- Detail Pengunjung -->
+        <div class="struk-content p-1">
+            <p><strong>Nama:</strong> {{ $bookedRoom->visitor_name }}</p>
+            <p><strong>Telepon:</strong> {{ $bookedRoom->phone }}</p>
+            <p><strong>Check-in:</strong> {{ $bookedRoom->check_in }}</p>
+            <p><strong>Check-out:</strong> {{ $bookedRoom->check_out }}</p>
+            <p><strong>Jumlah Kamar:</strong> {{ $bookedRoom->number_of_rooms }}</p>
+            <p><strong>Kamar:</strong> {{ $bookedRoom->room->name }} ({{ $bookedRoom->room->roomType->name }})</p>
+            <p><strong>Fasilitas:</strong></p>
+            <ul>
+                @foreach (json_decode($bookedRoom->room->roomType->facilities) as $facilities)
+                    <li>- {{ $facilities }}</li>
+                @endforeach
+            </ul>
+            <p><strong>Pemesan:</strong> {{ $bookedRoom->user->name }}</p>
+            <p><strong>Email:</strong> {{ $bookedRoom->user->email }}</p>
+        </div>
 
-      <!-- Room Details -->
-      <div class="mb-4">
-        <p class="font-semibold">Nama Kamar:</p>
-        <p class="text-gray-700">{{ $bookedRoom->room->name }}</p>
-        <p class="font-semibold">Tipe Kamar:</p>
-        <p class="text-gray-700">{{ $bookedRoom->room->roomType->name }}</p>
-        <p class="font-semibold">Fasilitas Kamar:</p>
-        <ul class="text-gray-700">
-            @foreach (json_decode($bookedRoom->room->roomFacilities->facilities) as $facilities)
-            <li> - {{ $facilities }}</li>
-            @endforeach
-        </ul>
-      </div>
-
-      <!-- User Details -->
-      <div class="mb-4">
-        <p class="font-semibold">Nama Pengguna:</p>
-        <p class="text-gray-700">{{ $bookedRoom->user->name }}</p>
-        <p class="font-semibold">Email:</p>
-        <p class="text-gray-700">{{ $bookedRoom->user->email }}</p>
-      </div>
-
-      <!-- Footer -->
-      <div class="text-center mt-6">
-        <button class="no-print bg-blue-500 text-white px-4 py-2 rounded-full" onclick="window.print()">Cetak Struk</button>
-      </div>
+        <hr>
+        <!-- Footer Struk -->
+        <div class="struk-footer py-3">
+            <p class="text-sm">Thank you for ordering!</p>
+            <p class="text-sm">- Hotel Prima -</p>
+        </div>
     </div>
-  </body>
+
+    <!-- Tombol Download -->
+    <div class="text-center mt-4">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-full"
+            onclick="downloadStruk({{ json_encode($bookedRoom->visitor_name) }})">Download Struk</button>
+    </div>
+
+    <script>
+        function downloadStruk(name) {
+            const strukElement = document.getElementById('struk');
+
+            html2canvas(strukElement, {
+                scale: 2,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                let link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `${name}-${new Date().toISOString()}.png`;
+                link.click();
+            });
+        }
+    </script>
+
+</body>
+
 </html>

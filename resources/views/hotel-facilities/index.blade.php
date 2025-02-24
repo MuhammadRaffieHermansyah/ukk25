@@ -6,45 +6,57 @@
     </x-slot>
 
     <div class="py-12">
-        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'receptionist')
-            <div class="mx-auto overflow-hidden max-w-7xl overflow-x-auto rounded-md border border-neutral-300">
-                <table class="w-full text-left text-sm text-neutral-600">
-                    <thead class="border-b border-neutral-300 bg-neutral-50 text-sm text-neutral-900">
-                        <tr class="text-center">
-                            <th scope="col" class="p-4">#</th>
-                            <th scope="col" class="p-4">Facility</th>
-                            <th scope="col" class="p-4">Description</th>
-                            <th scope="col" class="p-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-neutral-300">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            @if (Auth::user()->role == 'admin' || Auth::user()->role == 'receptionist')
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="mx-auto overflow-hidden max-w-7xl overflow-x-auto rounded-md border border-neutral-300">
+                        <table class="w-full text-left text-sm text-neutral-600">
+                            <thead class="border-b border-neutral-300 bg-neutral-50 text-sm text-neutral-900">
+                                <tr class="text-center">
+                                    <th scope="col" class="p-4">#</th>
+                                    <th scope="col" class="p-4">Facility</th>
+                                    <th scope="col" class="p-4">Description</th>
+                                    <th scope="col" class="p-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-neutral-300">
+                                @if ($hotelFacilities->isEmpty())
+                                    <td class="text-center py-4 text-lg" colspan="8">Hotel Facility data is empty!
+                                    </td>
+                                @endif
+                                @foreach ($hotelFacilities as $hotelFacility)
+                                    <tr class="even:bg-black/5 hover:bg-black/10 transition duration-500 text-center">
+                                        <td class="p-4">{{ $loop->iteration }}</td>
+                                        <td class="p-4 w-[25%]">{{ $hotelFacility->name }}</td>
+                                        <td class="p-4 text-start">{{ $hotelFacility->description }}</td>
+                                        <td class="p-4 flex flex-row justify-center items-center gap-3">
+                                            <a href="{{ route('facilities.hotel.edit', $hotelFacility->id) }}"
+                                                class="whitespace-nowrap rounded-md bg-yellow-400 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Edit</a>
+                                            <button type="button"
+                                                @click="hotelFacilityId = {{ $hotelFacility->id }}; $dispatch('open-modal', 'modal-delete-hotel-facility')"
+                                                class="whitespace-nowrap rounded-md bg-red-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <div class="grid grid-cols-3 gap-4 max-w-7xl mx-auto">
                         @foreach ($hotelFacilities as $hotelFacility)
-                            <tr class="even:bg-black/5 hover:bg-black/10 transition duration-500 text-center">
-                                <td class="p-4">{{ $loop->iteration }}</td>
-                                <td class="p-4 w-[25%]">{{ $hotelFacility->name }}</td>
-                                <td class="p-4 text-start">{{ $hotelFacility->description }}</td>
-                                <td class="p-4 flex flex-row justify-center items-center gap-3">
-                                    {{-- <button type="button"
-                                        class="whitespace-nowrap rounded-md bg-blue-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white ansition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Detail</button> --}}
-                                    <a href="{{ route('facilities.hotel.edit', $hotelFacility->id) }}"
-                                        class="whitespace-nowrap rounded-md bg-yellow-400 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Edit</a>
-                                    <button type="button"
-                                        @click="hotelFacilityId = {{ $hotelFacility->id }}; $dispatch('open-modal', 'modal-delete-hotel-facility')"
-                                        class="whitespace-nowrap rounded-md bg-red-600 px-4 py-2 text-center text-sm font-medium tracking-wide text-white transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:cursor-not-allowed disabled:opacity-75">Delete</button>
-                                </td>
-                            </tr>
+                            <div class="relative">
+                                <img src="{{ asset('storage/' . $hotelFacility->image) }}"
+                                    alt="{{ $hotelFacility->name }}" class="h-[17rem] w-full object-cover rounded-lg">
+                                <span
+                                    class="absolute top-2 left-2 bg-blue-600 text-white text-sm font-semibold px-4 py-1.5 rounded-lg shadow-md">
+                                    {{ $hotelFacility->name }}
+                                </span>
+                            </div>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <div class="grid grid-cols-3 gap-4 max-w-7xl mx-auto">
-                @foreach ($hotelFacilities as $hotelFacility)
-                    <img src="{{ asset('assets/images/hotel-facility/' . $hotelFacility->image) }}" alt=""
-                        class="h-[17rem] w-full bg-cover rounded-t-lg">
-                @endforeach
-            </div>
-        @endif
+                    </div>
+            @endif
+        </div>
+    </div>
     </div>
 
     {{-- MODAL --}}
@@ -77,7 +89,7 @@
             <hr>
             <div class="mt-4 text-end">
                 <button @click="$dispatch('close-modal', 'modal-add-hotel-facilities')"
-                    class="px-4 py-2 bg-gray-500 text-white rounded">eb
+                    class="px-4 py-2 bg-gray-500 text-white rounded">
                     Close
                 </button>
                 <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded">

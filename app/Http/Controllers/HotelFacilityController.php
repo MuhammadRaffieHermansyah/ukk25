@@ -37,7 +37,7 @@ class HotelFacilityController extends Controller
         if ($request->file('image')) {
             $data['image'] = $request->file('image')->store('hotel-facility-images');
             HotelFacility::create($data);
-            return redirect()->back()->with('success', 'Data Hotel Facility successfully updated!');
+            return redirect()->back()->with('success', 'Data Hotel Facility successfully added!');
         } else {
             return redirect()->back()->withErrors('image', 'Image null!');
         }
@@ -89,11 +89,11 @@ class HotelFacilityController extends Controller
         $hotelFacility = HotelFacility::find($id);
 
         if (!$hotelFacility) {
-            return response()->json(['success' => false, 'message' => 'Room not found'], 404);
+            return response()->json(['success' => false, 'error' => 'Room not found'], 404);
         }
         Storage::delete($hotelFacility->image);
         $hotelFacility->delete();
 
-        return response()->json(['success' => true, 'message' => 'Room deleted successfully']);
+        return response()->json(['success' => true, 'success' => 'Room deleted successfully']);
     }
 }
